@@ -38,7 +38,7 @@ pipeline {
 				subject: '[Jenkins] demo', 
 				to: 'anton_balakirev@epage.ru'
 		}
-		failed {
+		failure {
 			mail bcc: '', 
 				body: 'Status: Failed', 
 				cc: '', 
