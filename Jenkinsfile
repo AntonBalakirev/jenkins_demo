@@ -15,7 +15,7 @@ pipeline {
 		stage("init") {
 			steps {
 				echo "branch name: ${env.BRANCH_NAME}"
-				sh 'mvn clean'
+				// sh 'mvn clean'
 			}
 		}
 		stage("build") {
