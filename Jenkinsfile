@@ -30,21 +30,15 @@ pipeline {
 			cleanWs notFailBuild: true
 		}
 		success {
-			mail bcc: '', 
-				body: 'Status: Successful', 
-				cc: '', 
-				from: 'Jenkins demo run', 
-				replyTo: '', 
-				subject: '[Jenkins] demo', 
+			emailext body: 'Status: Successful', 
+				recipientProviders: [buildUser()], 
+				subject: '[Jenkins] example_demo', 
 				to: 'anton_balakirev@epage.ru'
 		}
 		failure {
-			mail bcc: '', 
-				body: 'Status: Failed', 
-				cc: '', 
-				from: 'Jenkins demo run', 
-				replyTo: '', 
-				subject: '[Jenkins] demo', 
+			emailext body: 'Status: Failure', 
+				recipientProviders: [buildUser()], 
+				subject: '[Jenkins] example_demo', 
 				to: 'anton_balakirev@epage.ru'
 		}
 	
