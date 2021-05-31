@@ -6,11 +6,16 @@ pipeline {
 	environment {
 		VERSION = '1.0'
 	}
+	
+	tools {
+		maven '3.6.3'
+	}
 
 	stages {
 		stage("init") {
 			steps {
 				echo "branch name: ${env.BRANCH_NAME}"
+				sh 'mvn clean'
 			}
 		}
 		stage("build") {
