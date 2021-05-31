@@ -13,7 +13,7 @@ pipeline {
 	}
 	
 	parameters {
-		string(name: 'VERSION', defaultValue: '1.0', description: 'version to deploy')
+		choice(name: 'VERSION', choices: ['1.0', '2.0', '3.0'], description: 'version to deploy')
 		booleanParam(name: 'TEST', defaultValue: true, description: '')
 	}
 	
