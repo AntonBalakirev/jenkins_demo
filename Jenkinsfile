@@ -1,10 +1,20 @@
-CODE_CHANGES = true //some logic
+def CODE_CHANGES = true //declare local params
+
 pipeline {
 	
 	agent any
 	
+	triggers { 
+		cron('H(30-35) 8 * * 1-5') 
+	}
+	
 	environment {
-		VERSION = '1.0'
+		ENV = 'Linux'
+	}
+	
+	parameters {
+		string(name: 'VERSION', defaultValue: '1.0', description: 'version to deploy')
+		booleanParam(name: 'TEST', defaultValue: true, description: '')
 	}
 	
 	tools {
@@ -15,6 +25,7 @@ pipeline {
 		stage("init") {
 			steps {
 				echo "branch name: ${env.BRANCH_NAME}"
+				echo "env: ${ENV}"
 				// sh 'mvn clean'
 			}
 		}
@@ -26,18 +37,18 @@ pipeline {
 			}
 			steps {
 				echo 'bulding the application...'
-				echo "building version ${VERSION}"
+				echo "building version ${params.VERSION}"
 			}
 		}
 		stage("test") {
 			when {
 				expression {
-					(env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'main') && CODE_CHANGES == true
+					params.TEST == true
 				}
 			}
 			steps {
 				echo 'testing the application...'
-				echo "testing version: ${VERSION}"
+				echo "testing version: ${params.VERSION}"
 			}
 		}
 		stage("deploy") {
@@ -49,7 +60,7 @@ pipeline {
 			steps {
 				withCredentials([usernamePassword(credentialsId: 'MSemenovykh', passwordVariable: 'password', usernameVariable: 'username')]) {
 					echo 'deploying the application...'
-					echo "deploying version: ${VERSION}"
+					echo "deploying version: ${params.VERSION}"
 					echo "with credentials ${params.MSemenovykh}"
 				}
 			}
