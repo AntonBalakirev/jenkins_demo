@@ -45,7 +45,7 @@ pipeline {
 				withCredentials([usernamePassword(credentialsId: 'MSemenovykh', passwordVariable: 'password', usernameVariable: 'username')]) {
 					echo 'deploying the application...'
 					echo "deploying version: ${VERSION}"
-					echo "with credentials ${MSemenovykh}"
+					echo "with credentials ${params.MSemenovykh}"
 				}
 			}
 		}
