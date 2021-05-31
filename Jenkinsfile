@@ -8,6 +8,11 @@ pipeline {
 	}
 
 	stages {
+		stage("init") {
+			steps {
+				echo "branch name: ${env.BRANCH_NAME}"
+			}
+		}
 		stage("build") {
 			when {
 				expression {
