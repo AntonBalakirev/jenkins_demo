@@ -11,7 +11,7 @@ pipeline {
 		stage("build") {
 			when {
 				expression {
-					BRANCH_NAME == 'main' && CODE_CHANGES == true
+					env.BRANCH_NAME == 'main' && CODE_CHANGES == true
 				}
 			}
 			steps {
@@ -22,7 +22,7 @@ pipeline {
 		stage("test") {
 			when {
 				expression {
-					(BRANCH_NAME == 'dev' || BRANCH_NAME == 'main') && CODE_CHANGES == true
+					(env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'main') && CODE_CHANGES == true
 				}
 			}
 			steps {
@@ -33,7 +33,7 @@ pipeline {
 		stage("deploy") {
 			when {
 				expression {
-					BRANCH_NAME == 'dev' || BRANCH_NAME == 'main'
+					env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'main'
 				}
 			}
 			steps {
