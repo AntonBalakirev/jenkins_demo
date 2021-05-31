@@ -1,27 +1,47 @@
+CODE_CHANGES = true //some logic
 pipeline {
 	
 	agent any
+	
+	environment {
+		VERSION = '1.0'
+	}
 
 	stages {
-
 		stage("build") {
-
+			when {
+				expression {
+					BRANCH_NAME == 'main' && CODE_CHANGES == true
+				}
+			}
 			steps {
 				echo 'bulding the application...'
+				echo "building version ${VERSION}"
 			}
 		}
-
 		stage("test") {
-
+			when {
+				expression {
+					(BRANCH_NAME == 'dev' || BRANCH_NAME == 'main') && CODE_CHANGES == true
+				}
+			}
 			steps {
 				echo 'testing the application...'
+				echo "testing version: ${VERSION}"
 			}
 		}
-
 		stage("deploy") {
-
-			steps {
-				echo 'deploying the application...'
+			withCredentials([usernamePassword(credentialsId: 'MSemenovykh', passwordVariable: 'password', usernameVariable: 'username')]) {
+				when {
+					expression {
+						BRANCH_NAME == 'dev' || BRANCH_NAME == 'main'
+					}
+				}
+				steps {
+					echo 'deploying the application...'
+					echo "deploying version: ${VERSION}"
+					echo "with credentials ${MSemenovykh}"
+				}
 			}
 		}
 	}
