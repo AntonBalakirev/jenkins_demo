@@ -26,14 +26,11 @@ pipeline {
 		}
 	}
 	post {
-		always {
-			cleanWs notFailBuild: true
-		}
 		success {
 			emailext body: 'Status: Successful', 
 				recipientProviders: [buildUser()], 
 				subject: '[Jenkins] example_demo', 
-				to: 'anton_balakirev@epage.ru'
+				to: 'antonblkrv@gmail.com'
 		}
 		failure {
 			emailext body: 'Status: Failure', 
@@ -41,6 +38,8 @@ pipeline {
 				subject: '[Jenkins] example_demo', 
 				to: 'anton_balakirev@epage.ru'
 		}
-	
+		cleanup {
+			cleanWs notFailBuild: true
+		}
 	}
 }
